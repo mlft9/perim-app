@@ -25,6 +25,40 @@ export default function ProductListPage() {
     }
   };
 
+  useEffect(() => {
+    if ('Notification' in window) {
+      Notification.requestPermission().then((permission) => {
+        console.log('Notification permission:', permission);
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    const today = new Date();
+    const soon = new Date();
+    soon.setDate(today.getDate() + 1);
+
+    products.forEach((product) => {
+      const date = new Date(product.expirationDate);
+      const diff = Math.ceil((date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
+      if (diff === 0 && Notification.permission === 'granted') {
+        new Notification(`⚠️ ${product.name}`, {
+          body: `Expire aujourd’hui (${product.expirationDate})`,
+          icon: '/pwa-192x192.png',
+        });
+      }
+
+      if (diff === 1 && Notification.permission === 'granted') {
+        new Notification(`⏳ ${product.name}`, {
+          body: `Expire demain (${product.expirationDate})`,
+          icon: '/pwa-192x192.png',
+        });
+      }
+    });
+  }, [products]);
+
+
   return (
     <PageWrapper>
       <div>

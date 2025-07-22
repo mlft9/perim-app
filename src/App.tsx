@@ -5,6 +5,7 @@ import AddProductPage from './pages/AddProductPage';
 import CalendarPage from './pages/CalendarPage';
 import './App.css';
 
+
 function AnimatedRoutes() {
   const location = useLocation();
 
