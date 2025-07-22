@@ -43,18 +43,19 @@ export default function ProductListPage() {
       const diff = Math.ceil((date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
       if (diff === 0 && Notification.permission === 'granted') {
-        new Notification(`⚠️ ${product.name}`, {
-          body: `Expire aujourd’hui (${product.expirationDate})`,
+        new Notification(`⚠️ ${formatName(product.name)} périme aujourd’hui`, {
+          body: `Pense à consommer ce produit avant ce soir (${formatDate(product.expirationDate)})`,
           icon: '/pwa-192x192.png',
         });
       }
 
       if (diff === 1 && Notification.permission === 'granted') {
-        new Notification(`⏳ ${product.name}`, {
-          body: `Expire demain (${product.expirationDate})`,
+        new Notification(`🔔 ${formatName(product.name)} périme demain`, {
+          body: `Tu devrais prévoir de le consommer bientôt ! (${formatDate(product.expirationDate)})`,
           icon: '/pwa-192x192.png',
         });
       }
+
     });
   }, [products]);
 
